@@ -124,9 +124,9 @@ CREATE TABLE energy_usage (
 
 -- Logging of user activity for audit purposes.
 CREATE TABLE public.audit_log (
+    id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     what text,
     who text,
-    id bigint,
     tstamp timestamp with time zone
 );
 
