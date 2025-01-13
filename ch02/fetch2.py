@@ -5,7 +5,7 @@ with psycopg.connect("dbname=frogge user=frogge") as conn:
     with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
         t1 = datetime.datetime.now()
         cur.execute('''SELECT *
-                       FROM tickets''')
+                       FROM support.tickets''')
         res = cur.fetchmany(10000)
         while (res):
             tkts = []

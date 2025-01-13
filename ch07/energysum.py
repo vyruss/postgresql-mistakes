@@ -11,7 +11,7 @@ with psycopg.connect("dbname=frogge user=frogge") as conn:
                     cur.execute('''WITH
                                    yesterday AS (
                                        SELECT *
-                                       FROM energy_use
+                                       FROM erp.energy_use
                                        WHERE reading_time >=
                                            date_trunc('d', now())
                                            - interval '1d'

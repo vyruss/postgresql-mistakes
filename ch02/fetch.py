@@ -5,7 +5,7 @@ with psycopg.connect("dbname=frogge user=frogge") as conn:
     with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
         t1 = datetime.datetime.now()
         cur.execute('''SELECT *
-                       FROM tickets
+                       FROM support.tickets
                        WHERE status = 10''')
         res = cur.fetchall()
         tkts = []
@@ -16,7 +16,7 @@ with psycopg.connect("dbname=frogge user=frogge") as conn:
     with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
         t3 = datetime.datetime.now()
         cur.execute('''SELECT id
-                       FROM tickets
+                       FROM support.tickets
                        WHERE status = 10''')
         res = cur.fetchall()
         tkts = []
