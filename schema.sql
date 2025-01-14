@@ -39,8 +39,8 @@ CREATE TYPE erp.order_status AS ENUM (
 CREATE TABLE erp.order_groups (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     status erp.order_status,
-    placed_at timestamp with time zone,
-    updated_at timestamp with time zone,
+    placed_at timestamptz,
+    updated_at timestamptz,
     customer bigint REFERENCES erp.customers(id)
 );
 
@@ -50,8 +50,8 @@ CREATE TABLE erp.orders (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     order_group bigint REFERENCES erp.order_groups(id),
     status erp.order_status,
-    placed_at timestamp with time zone,
-    updated_at timestamp with time zone,
+    placed_at timestamptz,
+    updated_at timestamptz,
     item integer,
     service integer
 );
@@ -64,15 +64,15 @@ CREATE TABLE erp.invoices (
     customer bigint REFERENCES erp.customers(id),
     paid boolean DEFAULT false NOT NULL,
     order_group bigint REFERENCES erp.order_groups(id),
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamptz DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamptz DEFAULT CURRENT_TIMESTAMP
 );
 
 
 -- We hold payments for specific invoices in here.
 CREATE TABLE erp.payments (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    tstamp timestamp with time zone NOT NULL,
+    tstamp timestamptz NOT NULL,
     amount numeric NOT NULL,
     invoice bigint REFERENCES erp.invoices(id)
 );
@@ -101,8 +101,7 @@ CREATE TYPE erp.email_type AS ENUM (
 
 -- This table is the history of all emails sent out to customers.
 CREATE TABLE erp.sent_emails (
-    tstamp timestamp with time zone PRIMARY KEY DEFAULT CURRENT_TIMESTAMP
-    NOT NULL,
+    tstamp timestamptz PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,
     customer bigint REFERENCES erp.customers(id),
     type erp.email_type,
     invoice bigint REFERENCES erp.invoices(id)
@@ -112,7 +111,7 @@ CREATE TABLE erp.sent_emails (
 -- This table records energy usage readings for each of the branches.
 CREATE TABLE erp.energy_usage (
     branch_id integer NOT NULL,
-    reading_time timestamptz DEFAULT CURRENT_TIMESTAMP,
+    reading_time timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     reading numeric NOT NULL,
     unit varchar DEFAULT 'kWh' NOT NULL
 );
@@ -133,5 +132,5 @@ CREATE TABLE audit.audit_log (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     what text,
     who text,
-    tstamp timestamp with time zone
+    tstamp timestamptz
 );
